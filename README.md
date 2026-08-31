@@ -81,7 +81,7 @@ In order to use the set up enviroment, you will need to instal the environment a
 
 **Helpful Links:**
 * **Getting started with Explorer:** Refer to this [document](https://docs.google.com/document/d/1nsP4YUBajdM6j3R0tA4gRnwo9qPdRv5gTtXHYdiXCz8/) to create environments, manage files, and start sessions in our HPC. 
-* **Official Documentaion:** For more info on the HPC, refer to the [Official Documentation](https://rc-docs.northeastern.edu/en/latest/).
+* **Official Documentation:** For more info on the HPC, refer to the [Official Documentation](https://rc-docs.northeastern.edu/en/latest/).
 
 ---
 ### Submission Instructions
@@ -92,7 +92,7 @@ In order to use the set up enviroment, you will need to instal the environment a
 
 2.  Zip both completed notebooks (`.ipynb` files) into a single file. You may also include a PDF if you chose to report in one. Name the zip file `CA4-Your-Last-Name`.
 
-3.  Submit the zip file as a direct **reply** to the [*coding assignment module of week 5*](https://northeastern.instructure.com/courses/246096/discussion_topics/3039531) on Canvas.
+3.  Submit the zip file as a direct **reply** to the **Coding Assignment 4** discussion thread on Canvas, found in the **Coding Assignments** module for the week this assignment is due. Reply to the existing thread rather than starting a new one.
 
 ### Getting Help
 
