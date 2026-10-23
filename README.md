@@ -1,105 +1,153 @@
-# Coding Assignment 4: Medical Image Segmentation with U-Net
-
-In previous assignments, you built CNNs for classification. Now, we will dive into a more complex and impactful computer vision task: **semantic segmentation**. You will build, train, and evaluate a U-Net, a state-of-the-art deep learning architecture, to segment brain tumors from multi-modal MRI scans.
-
-This two-part assignment will guide you through the complete workflow of a medical imaging project, from exploring a complex dataset to building and experimenting with a powerful segmentation model. By the end, you will have hands-on experience with one of the most prominent applications of CNNs in the medical field.
-
-## About the Dataset: BraTS 2020
-
-We will be using the **[BraTS 2020 (Brain Tumor Segmentation) dataset](https://www.kaggle.com/datasets/awsaf49/brats20-dataset-training-validation)**, a challenging and widely-used benchmark in the medical imaging community. Each patient case includes four co-registered MRI modalities:
-* T1-weighted (T1)
-* Post-contrast T1-weighted (T1ce)
-* T2-weighted (T2)
-* T2-weighted FLAIR (Fluid-Attenuated Inversion Recovery)
-
-Your goal will be to use these scans to predict the location and extent of gliomas, segmenting regions such as the necrotic core, edema, and the enhancing tumor.
-
-## Learning Objectives
-
-After completing this assignment, you will be able to:
-
-* **Implement a U-Net architecture** from scratch in PyTorch for semantic segmentation.
-* **Understand and preprocess multi-modal medical imaging data** (NIfTI format, MRI sequences).
-* **Evaluate segmentation models** using domain-specific metrics like the Dice coefficient and Jaccard Index (IoU).
-* **Experiment with different loss functions**, modalities, and data sampling strategies to improve model performance.
-* **Transition a model from a binary to a multi-class segmentation task**, a key step in building more sophisticated models.
+# **Coding Assignment 4: Language Models, from RNNs to Transformers**
 
 </br>
 
-## Assignment Structure
+## **Overview**
 
-This assignment is broken down into two notebooks that represent a complete project workflow.
+This assignment is about **autoregressive** models, which factor a distribution over sequences into
+one token at a time: each token is modeled as a conditional probability given the ones before it.
+It is the approach behind every modern language model.
 
-1.  **`CA4.1_BraTS2020_EDA.ipynb`**
-    
-    This notebook is a guided tutorial on Exploratory Data Analysis (EDA) for the BraTS 2020 dataset. It contains **13 questions**. For the first 11 questions, you are only required to run the provided code cells and answer based on your observations and interpretations. No coding is needed. Some questions are domain-specific; focus on careful observation rather than searching for a single "correct" answer. Only the final two questions will require you to run and modify a code cell to generate visualizations for your answer.
-
-2.  **`CA4.2_BrainTumorSegmentation.ipynb`**
-    
-    Here, you will build and train a U-Net model. The notebook culminates in **7 experimental questions** at the end. These are hands-on tasks where you will modify the baseline model to explore different techniques. Each question includes code skeletons with `TODO` sections for you to complete, along with helpful hints.
-
-</br>
+You'll build a character-level language model three ways, a simple RNN, a multi-layer RNN, and a
+Transformer, and train each on short children's stories. Along the way you'll count what each
+architecture costs to train and to generate from, which explains why Transformers won. You'll
+finish by swapping characters for subword tokens, the way production systems do it.
 
 ---
 
-### Setup and Environment on Explorer HPC
+## **Notebook**
 
-This assignment **must be completed on the Explorer HPC**, as the dataset is large and has been pre-loaded for your convenience. The notebook paths are already configured to read from the correct location on the HPC filesystem.
+### **CA4 — Language Model Architectures: RNNs to Transformers**
 
-The easiest way to use the HPC is through the [Open OnDemand (OOD) web interface](https://ood.explorer.northeastern.edu/). A Python environment with all necessary packages (`pyTorch`, `nibabel`, etc.) has been created for you at: `/courses/CS7150.202630/shared/env/brats`
+**Topics:**
+- Recurrent neural networks (Elman cells, backpropagation through time)
+- Multi-layer RNN architectures
+- The Transformer (attention, causal masking, positional embeddings)
+- Computational cost (FLOPs, sequential steps, parallelization)
+- Real-world tokenization (SentencePiece, BPE)
 
-#### **How to use this environment:**
-In order to use the set up enviroment, you will need to instal the environment as a Jupyter Kernel as a one-time setup.
+**Point breakdown (60 points + 6 extra credit):**
 
-1.  Log in to [Open OnDemand (OOD)](https://ood.explorer.northeastern.edu/).
-2.  Start a terminal session by going to `Clusters > Explorer Shell Access`.
-3.  Once the terminal is running, run the following two commands in order: 
-
-    Get on a compute node
-    ```bash
-    srun -p courses --pty bash
-    ```
-    
-    Activate the shared Python environment
-    ```bash
-    source activate /courses/CS7150.202630/shared/env/brats
-    ```
-
-    Install this environment as a personal Jupyter kernel
-    ```bash
-    python -m ipykernel install --user --name brats --display-name "Python (BraTS20)"
-    ```
-
-    Get off the compute node
-    ```bash
-    exit
-    ```
-
-4.  After this is done, you can stop the terminal session. From now on, when you start a regular JupyterLab Notebook session on OOD, you will see **"Python (BraTS20)"** in the list of available kernels to select.
-
-</br>
-
-**Helpful Links:**
-* **Getting started with Explorer:** Refer to this [document](https://docs.google.com/document/d/1nsP4YUBajdM6j3R0tA4gRnwo9qPdRv5gTtXHYdiXCz8/) to create environments, manage files, and start sessions in our HPC. 
-* **Official Documentation:** For more info on the HPC, refer to the [Official Documentation](https://rc-docs.northeastern.edu/en/latest/).
+| Section | Points |
+|---------|--------|
+| Exercise 1 — Recurrent generation | 8 pts |
+| Exercise 2 — RNN training loop | 3 pts |
+| Multi-layer RNN — implementation | 3 pts |
+| Multi-layer RNN — training loop | 3 pts |
+| Computational cost of the RNN (4 questions) | 7 pts |
+| Transformer — implementation | 10 pts |
+| Computational cost of the Transformer (4 questions) | 14 pts |
+| Subword tokenization — train the tokenizer | 2 pts |
+| Subword tokenization — subword dataset | 3 pts |
+| Subword tokenization — train the RNN on subwords | 1 pt |
+| Character vs. subword analysis (4 questions) | 6 pts |
+| **Total** | **60 pts** |
+| *Extra credit — Transformer with subword tokenization* | *+6 pts* |
 
 ---
-### Submission Instructions
 
-1.  Complete all tasks for both notebooks:
-    * In `CA4.1`, answer all 13 in-line questions.
-    * In `CA4.2`, complete all `TODO` sections and answer the 7 experimental questions at the end.
+## **Grading: 60 points here, 20 from discussion**
 
-2.  Zip both completed notebooks (`.ipynb` files) into a single file. You may also include a PDF if you chose to report in one. Name the zip file `CA4-Your-Last-Name`.
+This assignment is worth **80 points total**.
 
-3.  Submit the zip file as a direct **reply** to the **Coding Assignment 4** discussion thread on Canvas, found in the **Coding Assignments** module for the week this assignment is due. Reply to the existing thread rather than starting a new one.
+| | Points |
+|---|--------|
+| Notebook in this repository | 60 |
+| Group discussion | 20 |
+| **Total** | **80** |
 
-### Getting Help
+**How to read the point markers.** Every graded item carries exactly one point value, written in
+square brackets next to it. A section heading never carries a separate total on top of the items
+underneath it, so you can add up the brackets as you go and get the right number.
 
-If you encounter any problems with the notebook, notice any errors, or have questions about the setup, please do not hesitate to reach out. You can email me at **[patel.pranav2@northeastern.edu](mailto:patel.pranav2@northeastern.edu)** or send me a message on Microsoft Teams.
+**About the discussion.** You'll be in a small group of about three students. We'll walk through
+parts of the assignment together and ask you to talk through your own work: why you took a
+particular approach, what gave you trouble, what you would do differently. You can also earn credit
+by weighing in on a question put to someone else in your group.
 
-### Important Notes
+Keep it relaxed. There's nothing extra to prepare beyond knowing what you submitted, and "I got
+stuck on this part and looked it up" is a perfectly good answer. The point is to hear you reason
+about your own code, not to catch anyone out.
 
-* Please adhere to the collaboration policy outlined in the course syllabus.
-* Make sure to credit any external resources, discussions, or AI assistance you used to complete the assignment.
-* **Start early!** This is a comprehensive assignment that will translate much of our theoretical knowledge into practical application. Good luck!
+---
+
+## **Setup**
+
+The notebook trains several small language models, so use a GPU. Either option works:
+
+- **Explorer HPC.** Start a JupyterLab session on the `courses-gpu` partition through
+  [Open OnDemand](https://ood.explorer.northeastern.edu/), using the course's shared Python
+  environment at `/courses/CS7150.202710/shared/env/cs7150`. Everything this notebook needs is
+  already installed there. The
+  [course Explorer guide](https://docs.google.com/document/d/1nsP4YUBajdM6j3R0tA4gRnwo9qPdRv5gTtXHYdiXCz8/)
+  walks through starting the session.
+- **Google Colab.** Use the link at the top of the notebook, then switch to a GPU runtime
+  (*Runtime → Change runtime type*).
+
+The TinyStories dataset downloads automatically the first time you run the notebook.
+
+To run locally instead:
+
+```bash
+pip install torch numpy matplotlib tqdm datasets sentencepiece ipywidgets
+```
+
+---
+
+## **Submission Instructions**
+
+### **Deliverables:**
+- `CA4_LanguageModels.ipynb`
+
+Keep the original filename. Zip the completed notebook into a single archive named:
+
+```
+CA4-Your-Last-Name.zip
+```
+
+For example, a student named Jordan Rivera submits `CA4-Rivera.zip`.
+
+### **Requirements:**
+- All TODO sections filled in with working code
+- All questions answered in the markdown cells marked "YOUR ANSWER:"
+- Generated outputs visible (loss plots, sample text)
+- Notebook runs top to bottom without errors
+
+### **Where to submit:**
+Post your zip file as a direct **reply** to the **Coding Assignment 4** discussion thread on Canvas.
+You'll find that thread in the **Coding Assignments** module for the week this assignment is due.
+
+- Reply to the existing thread — do not start a new one.
+- Attach the zip file — do not upload the notebook on its own.
+- If you cannot find the thread, check the course Canvas page or contact the TA (see *Getting Help*).
+
+---
+
+## **Resources**
+
+**Papers referenced:**
+- RNNs: Elman (1990) — *Finding Structure in Time*
+- Transformers: Vaswani et al. (2017) — [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762)
+- TinyStories: Eldan and Li (2023) — [*How Small Can Language Models Be and Still Speak Coherent English?*](https://arxiv.org/abs/2305.07759)
+
+**Additional reading:**
+- [Andrej Karpathy's nanoGPT](https://github.com/karpathy/nanoGPT)
+- [ARENA Transformer Tutorial](https://arena-chapter1-transformer-interp.streamlit.app/)
+- [SentencePiece](https://github.com/google/sentencepiece)
+
+---
+
+## **Getting Help**
+
+If you hit a problem with the notebook, spot an error, or have a question about the setup, please
+reach out. Email me at **[patel.pranav2@northeastern.edu](mailto:patel.pranav2@northeastern.edu)**
+or send me a message on Microsoft Teams.
+
+---
+
+## **Academic Integrity**
+
+- **Collaboration:** Follow the course syllabus policy on collaboration
+- **Citations:** Credit any external resources, discussions, and AI assistance you used
+- **Code reuse:** Cite any code adapted from online sources
+- **Individual work:** Submit your own implementations — copying code is prohibited
