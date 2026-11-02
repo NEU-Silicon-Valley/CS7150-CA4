@@ -84,6 +84,17 @@ The notebook trains several small language models, so use a GPU. Either option w
 - **Google Colab.** Use the link at the top of the notebook, then switch to a GPU runtime
   (*Runtime → Change runtime type*).
 
+**Explorer: the course environment isn't in the kernel list?** Open a terminal (in JupyterLab, or
+over SSH) and register it once:
+
+```bash
+ENV=/courses/CS7150.202710/shared/env/cs7150   # the course environment path above
+$ENV/bin/python -m ipykernel install --user --name cs7150 --display-name "CS7150"
+```
+
+Refresh JupyterLab and pick **CS7150** under *Kernel → Change Kernel*. You only do this once, and
+the kernel carries over to later assignments.
+
 The TinyStories dataset downloads automatically the first time you run the notebook.
 
 To run locally instead:
